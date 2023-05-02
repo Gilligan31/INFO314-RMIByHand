@@ -1,5 +1,7 @@
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
+// import java.io.FileInputStream;
+// import java.io.ObjectInputStream;
+
 
 public class Client {
 
@@ -34,18 +36,25 @@ public class Client {
     // Do not modify any code below this line
     // --------------------------------------
     String server = "localhost";
-    public static final int PORT = 10314;
-
+    public static final int PORT = 10314; 
+    
     public static void main(String... args) throws Exception {
         // All of the code below this line must be uncommented
         // to be successfully graded.
-        Echo echo = null;
 
+        // Is it fine that this is in main even though it's below the line? 
+        Echo echo = null;
+        
         try (FileInputStream fos = new FileInputStream("echo.stub");
             ObjectInputStream oos = new ObjectInputStream(fos)) {
                 echo = (Echo)oos.readObject();
+            } 
+            // I think this specific catch needs to be elsewhere but idk where.
+            catch (IOException ex) {
+                System.out.print("Server isn't listening - run the server and try again!");
+                ex.printStackTrace();
             }
-            System.out.println(echo.echo("Roger"));
+        System.out.println(echo.echo("Roger"));
     
         System.out.print("Testing... ");
 
